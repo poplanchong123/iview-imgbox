@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>iview-imgbox</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/styles/iview.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/iview.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
+    ></script>
+    <style>
+      body{
+        font-family: 微软雅黑,"Microsoft YaHei";
+      }
+
+      #app {
+        text-align: center;
+        margin: 50px auto;
+        width: 800px;
+      }
+
+      .img-thumbnail{
+        display: inline-block;
+        max-width: 100%;
+        height: auto;
+        padding: 4px;
+        line-height: 1.4;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+      }
+
+      .close{
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: .2;
+      }
+
+      .img-list{
+        position: relative;
+        display: table;
+        border-collapse: separate;
+      }
+
+      .img-list{
+        height: 150px;
+        max-width: 150px;
+        position: relative;
+        float: left;
+        margin-right: 18px;
+      }
+
+    </style>
+    <!--[if lt IE 10]>
+      <script>
+        // 不支持IE9及以下
+        window.onload = function() {
+          var body = document.getElementsByTagName('body')[0]
+          body.style.background = '#fff'
+          body.style.height = '100%'
+
+          body.innerHTML = [
+            '<div style="border:1px solid #e0e0e0; margin: 80px auto; width:480px; background:#f8f8f8; padding:36px; text-align:center;">',
+            '  <h2><b>你使用的IE浏览器版本过低</n></h2>',
+            '  <p>请使用360、谷歌、火狐等浏览器浏览！</p>',
+            '  <a href="http://se.360.cn/" ',
+            '    style="margin:16px auto 0; display:block; width:200px; color:#fff; font-size:20px; height:36px; line-height:36px;background:#5EA433;border:1px solid #478239;">',
+            '      立即下载360浏览器',
+            '  </a>',
+            '</div>'
+          ].join('')
+        }
+      </script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div id="app">
+
+      <Card>
+        <p slot="title">单选</p>
+        <div>
+          <Row>
+            <i-col span="12">
+              <i-input placeholder="" />
+              <i-button slot="append" @click="single">选择图片</i-button>
+            </i-col>
+          </Row>
+          <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
+            <i-col>
+              <div class="img-list" v-for="(img, index) in single_img_list" :key="img.id">
+                  <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;" width="150" class="img-responsive img-thumbnail">
+                  <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片" @click="deleteImage(index,single_img_list)">×</em>
+              </div>
+            </i-col>
+          </Row>
+        </div>
+      </Card>
+      <br>
+      <Card>
+        <p slot="title">多选</p>
+        <div>
+            <Row>
+              <i-col span="12">
+                <i-input placeholder="" disabled/>
+                <i-button slot="append" @click="multiple">选择图片</i-button>
+              </i-col>
+            </Row>
+            <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
+              <i-col>
+                <div class="img-list" v-for="(img, index) in multiple_img_list" :key="img.id">
+                    <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;" width="150" class="img-responsive img-thumbnail">
+                    <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片" @click="deleteImage(index,multiple_img_list)">×</em>
+                </div>
+              </i-col>
+            </Row>
+          </div>
+      </Card>
+    </div>
+    <script src="./dist/iview-imgbox.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: function() {
+          return {
+            single_img_list: [],
+            multiple_img_list:[],
+            opts: {
+              uploadUrl: 'http://iview.image.poplanchong.top/image/upload',
+              uploadParams: {},// 用于验证信息
+              listUrl: 'http://iview.image.poplanchong.top/image/list',
+              listParams: {},// 用于验证信息
+              deleteUrl: 'http://iview.image.poplanchong.top/image/delete',
+              deleteParams: {}, // 用于验证信息
+              multiple: true,
+              enableUpload: true,
+              maxSize: 2048,
+              onSelect: img_list=> {
+                // 选中图片后回调处理
+                this.multiple_img_list = img_list;
+              }
+            }
+          }
+        },
+        methods: {
+          multiple: function() {
+            this.$iviewImgbox(this.opts)
+          },
+          single: function() {
+            this.$iviewImgbox(
+              this.opt({
+                multiple: false,
+                onSelect :img_list=>{
+                  this.single_img_list = img_list;
+                }
+              })
+            )
+          },
+          opt: function(myOpts) {
+            var myOpts = myOpts || {}
+            var opts = JSON.parse(JSON.stringify(this.opts))
+
+            for (var i in myOpts) {
+              opts[i] = myOpts[i]
+            }
+
+            return opts
+          },
+          deleteImage(index,list){
+            list.splice(index,1);
+          },
+        }
+      })
+
+    </script>
+  </body>
+</html>
