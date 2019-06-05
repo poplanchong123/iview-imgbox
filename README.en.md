@@ -1,8 +1,7 @@
 # iview-imgbox
 
-[![AUR](https://img.shields.io/aur/license/yaourt.svg)](https://github.com/poplanchong123/iview-imgbox/blob/master/LICENSE)
-[![](https://img.shields.io/badge/Author-Exrick-orange.svg)](http://www.poplanchong.top)
-[![](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](https://github.com/Exrick/x-boot)
+[![AUR](https://img.shields.io/npm/v/iview-imgbox.svg)](https://www.npmjs.com/package/iview-imgbox)
+[![](https://img.shields.io/badge/Author-poplanchong-orange.svg)](http://www.poplanchong.top)
 [![GitHub stars](https://img.shields.io/github/stars/poplanchong123/iview-imgbox.svg?style=social&label=Stars)](https://github.com/poplanchong123/iview-imgbox)
 [![GitHub forks](https://img.shields.io/github/forks/poplanchong123/iview-imgbox.svg?style=social&label=Fork)](https://github.com/poplanchong123/iview-imgbox)
 
@@ -134,4 +133,3 @@ npm run dev
 ```
 
 > ps: Detailed reference items index.html
-
