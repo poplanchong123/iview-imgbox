@@ -7,13 +7,12 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
     filename: 'iview-imgbox.js',
-    library: 'state-button',
+    library: 'iview-imgbox',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/,
         use: [
           'vue-style-loader',

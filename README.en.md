@@ -48,10 +48,11 @@ npm run dev
 ></script>
 ```
 
-2. include dist/iview-imgbox.js
+2. include iview-imgbox.js in index.js
 
-```html
-<script src="./dist/iview-imgbox.js"></script>
+```js
+import iviewImgbox from 'iview-imgbox';
+Vue.use(iviewImgbox);
 ```
 
 3. usage

@@ -47,10 +47,11 @@ npm run dev
 ></script>
 ```
 
-2.引入 dist/iview-imgbox.js
+2.在index.js中引入 iview-imgbox.js 
 
-```html
-<script src="./dist/iview-imgbox.js"></script>
+```js
+import iviewImgbox from "iview-imgbox";
+Vue.use(iviewImgbox);
 ```
 
 3.使用
