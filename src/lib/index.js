@@ -7,12 +7,13 @@ const iviewImgboxPlugin = {
     // 插件实例（共享）
     let imgbox
 
-    Vue.iviewImgbox = Vue.prototype.$iviewImgbox = function(options = {}) {
+    Vue.iviewImgbox = Vue.prototype.$iviewImgbox = function (options = {}) {
       imgbox || (imgbox = new CONSTRUCTOR())
 
-      for (const i in options) {
-        imgbox.options[i] = options[i]
-      }
+      // for (const i in options) {
+      //   imgbox.options[i] = options[i]
+      // }
+      imgbox.options = $.extend(true, {}, imgbox.options, options);
 
       if (!imgbox.$el) {
         let vm = imgbox.$mount()

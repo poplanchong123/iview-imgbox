@@ -5,8 +5,9 @@
 
       <Row style="margin-left:20px;">
         <Upload
-          :action="options.uploadUrl"
-          :data="options.uploadParams"
+          :action="options.uploadParams.url"
+          :data="options.uploadParams.data"
+          :headers="options.uploadParams.headers"
           :on-success="handleSuccess"
           :on-error="handleError"
           :format="['jpg','jpeg','png','gif','bmp']"
@@ -94,12 +95,24 @@ export default {
   data() {
     return {
       options: {
-        uploadUrl: "", // 图片上传URL
-        uploadParams: {},
-        listUrl: "", // 图片列表数据URL
-        listParams: {}, // 列表参数
-        deleteUrl: "", // 删除图片URL
-        deleteParams: {}, // 删除参数
+        uploadParams: {
+          url: "", // 图片上传URL
+          data: {},
+          headers: {},
+          method: "POST"
+        },
+        listParams: {
+          url: "", // 图片列表URL
+          data: {},
+          headers: {},
+          method: "GET"
+        },
+        deleteParams: {
+          url: "", // 删除图片URL
+          data: {},
+          headers: {},
+          method: "POST"
+        },
         pageSize: 18, // 每页展示图片数
         multiple: true, // 是否支持选取多个图片
         limit: 5, // 一批次最多可上传图片数
@@ -138,48 +151,47 @@ export default {
      */
     loadImgList(page = 1) {
       this.page = page;
-      const listUrl = this.options.listUrl;
+      let listParams = this.options.listParams;
+      const url = listParams.url;
 
-      if (!listUrl) {
+      if (url == "") {
         return;
       }
 
       this.isLoading = true;
       let pageSize = this.options.pageSize;
-      let listParams = this.options.listParams;
 
-      $.getJSON(
-        listUrl,
-        Object.assign(listParams, { page: page, rows: pageSize }),
-        res => {
-          //{
-          //     "code": 1,
-          //     "success": true,
-          //     "tip": "请求成功",
-          //     "data": {
-          //         "total": 1,
-          //         "list": [
-          //             {
-          //                 "id": "1",
-          //                 "name": "alired.jpg",
-          //                 "url": "http://demo.myapiadmin.com.cn/attachment/images/2019/05/LmTMc1J419JVVvs6f96Z6f0Y90y1Xz.jpg",
-          //                 "attachment": "images/2019/05/LmTMc1J419JVVvs6f96Z6f0Y90y1Xz.jpg"
-          //             }
-          //         ]
-          //     }
-          // }
-          if (!res.success) {
-            this.$Message.warning({
-              content: "程序异常"
-            });
-            return;
-          }
+      let req = listParams;
+      req["data"] = Object.assign(req.data, { page: page, rows: pageSize });
 
-          var res = res.data;
-
-          this.renderimgList(res);
+      $.ajax(req).done(res => {
+        //{
+        //     "code": 1,
+        //     "success": true,
+        //     "tip": "请求成功",
+        //     "data": {
+        //         "total": 1,
+        //         "list": [
+        //             {
+        //                 "id": "1",
+        //                 "name": "alired.jpg",
+        //                 "url": "http://demo.myapiadmin.com.cn/attachment/images/2019/05/LmTMc1J419JVVvs6f96Z6f0Y90y1Xz.jpg",
+        //                 "attachment": "images/2019/05/LmTMc1J419JVVvs6f96Z6f0Y90y1Xz.jpg"
+        //             }
+        //         ]
+        //     }
+        // }
+        if (!res.success) {
+          this.$Message.warning({
+            content: "程序异常"
+          });
+          return;
         }
-      );
+
+        var res = res.data;
+
+        this.renderimgList(res);
+      });
     },
     /**
      * 渲染数据
@@ -284,20 +296,22 @@ export default {
      * 删除图片请求
      */
     deleteImgageByIds(ids) {
+      let deleteParams = this.options.deleteParams;
+      const url = deleteParams.url;
+
+      if (url == "") {
+        return;
+      }
+
       this.$Modal.confirm({
         title: "提示",
         content: "删除不可恢复,确认删除么?",
         onOk: () => {
           let pageSize = this.options.pageSize;
+          let req = deleteParams;
+          req["data"] = Object.assign(req.data, { ids: ids });
 
-          $.ajax({
-            url: this.options.deleteUrl,
-            data: Object.assign(this.options.deleteParams, {
-              ids: ids
-            }),
-            method: "POST"
-          }).done(res => {
-            // console.log(res);
+          $.ajax(req).done(res => {
             if (res.success) {
               this.$Message.success("删除成功");
 

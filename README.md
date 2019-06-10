@@ -47,10 +47,10 @@ npm run dev
 ></script>
 ```
 
-2.在index.js中引入 iview-imgbox.js 
+2.在 index.js 中引入 iview-imgbox.js
 
 ```js
-import iviewImgbox from "iview-imgbox";
+import iviewImgbox from 'iview-imgbox';
 Vue.use(iviewImgbox);
 ```
 
@@ -104,12 +104,21 @@ Vue.use(iviewImgbox);
         single_img_list: [],
         multiple_img_list: [],
         opts: {
-          uploadUrl: '', // 上传图片接口链接
-          uploadParams: {}, // 用于验证信息
-          listUrl: '', // 图片列表接口链接
-          listParams: {}, // 用于验证信息
-          deleteUrl: '', // 删除图片接口链接
-          deleteParams: {}, // 用于验证信息
+          uploadParams: {
+            url: '', // 图片上传URL
+            data: {},
+            headers: {},
+          },
+          listParams: {
+            url: '', // 图片列表URL
+            data: {},
+            headers: {},
+          },
+          deleteParams: {
+            url: '', // 删除图片URL
+            data: {},
+            headers: {},
+          },
           multiple: true,
           enableUpload: true,
           maxSize: 2048,

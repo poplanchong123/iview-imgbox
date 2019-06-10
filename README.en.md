@@ -105,12 +105,21 @@ Vue.use(iviewImgbox);
         single_img_list: [],
         multiple_img_list: [],
         opts: {
-          uploadUrl: '', // upload image api url
-          uploadParams: {}, // upload image other params
-          listUrl: '', // image list api url
-          listParams: {}, // image list other params
-          deleteUrl: '', // delete image api url
-          deleteParams: {}, // delete image other params
+          uploadParams: {
+            url: '',
+            data: {},
+            headers: {}
+          },
+          listParams: {
+            url: '',
+            data: {},
+            headers: {}
+          },
+          deleteParams: {
+            url: '',
+            data: {},
+            headers: {}
+          },
           multiple: true,
           enableUpload: true,
           maxSize: 2048,

@@ -1,78 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>iview-imgbox</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/styles/iview.css"
-    />
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/iview.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
-    ></script>
-    <style>
-      body{
-        font-family: 微软雅黑,"Microsoft YaHei";
-      }
 
-      #app {
-        text-align: center;
-        margin: 50px auto;
-        width: 800px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>iview-imgbox</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/styles/iview.css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/iview@3.4.2/dist/iview.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <style>
+    body {
+      font-family: 微软雅黑, "Microsoft YaHei";
+    }
 
-      .img-thumbnail{
-        display: inline-block;
-        max-width: 100%;
-        height: auto;
-        padding: 4px;
-        line-height: 1.4;
-        background-color: #ffffff;
-        border: 1px solid #dddddd;
-        border-radius: 4px;
-        -webkit-transition: all .2s ease-in-out;
-        -o-transition: all .2s ease-in-out;
-        transition: all .2s ease-in-out;
-      }
+    #app {
+      text-align: center;
+      margin: 50px auto;
+      width: 800px;
+    }
 
-      .close{
-        float: right;
-        font-size: 21px;
-        font-weight: 700;
-        line-height: 1;
-        color: #000000;
-        text-shadow: 0 1px 0 #ffffff;
-        opacity: .2;
-      }
+    .img-thumbnail {
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+      padding: 4px;
+      line-height: 1.4;
+      background-color: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      -webkit-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+      transition: all .2s ease-in-out;
+    }
 
-      .img-list{
-        position: relative;
-        display: table;
-        border-collapse: separate;
-      }
+    .close {
+      float: right;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1;
+      color: #000000;
+      text-shadow: 0 1px 0 #ffffff;
+      opacity: .2;
+    }
 
-      .img-list{
-        height: 150px;
-        max-width: 150px;
-        position: relative;
-        float: left;
-        margin-right: 18px;
-      }
+    .img-list {
+      position: relative;
+      display: table;
+      border-collapse: separate;
+    }
 
-    </style>
-    <!--[if lt IE 10]>
+    .img-list {
+      height: 150px;
+      max-width: 150px;
+      position: relative;
+      float: left;
+      margin-right: 18px;
+    }
+
+  </style>
+  <!--[if lt IE 10]>
       <script>
         // 不支持IE9及以下
         window.onload = function() {
@@ -93,107 +81,120 @@
         }
       </script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div id="app">
+  <div id="app">
 
-      <Card>
-        <p slot="title">单选</p>
-        <div>
-          <Row>
-            <i-col span="12">
-              <i-input placeholder="" />
-              <i-button slot="append" @click="single">选择图片</i-button>
-            </i-col>
-          </Row>
-          <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
-            <i-col>
-              <div class="img-list" v-for="(img, index) in single_img_list" :key="img.id">
-                  <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;" width="150" class="img-responsive img-thumbnail">
-                  <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片" @click="deleteImage(index,single_img_list)">×</em>
-              </div>
-            </i-col>
-          </Row>
-        </div>
-      </Card>
-      <br>
-      <Card>
-        <p slot="title">多选</p>
-        <div>
-            <Row>
-              <i-col span="12">
-                <i-input placeholder="" disabled/>
-                <i-button slot="append" @click="multiple">选择图片</i-button>
-              </i-col>
-            </Row>
-            <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
-              <i-col>
-                <div class="img-list" v-for="(img, index) in multiple_img_list" :key="img.id">
-                    <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;" width="150" class="img-responsive img-thumbnail">
-                    <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片" @click="deleteImage(index,multiple_img_list)">×</em>
-                </div>
-              </i-col>
-            </Row>
-          </div>
-      </Card>
-    </div>
-    <script src="./dist/iview-imgbox.js"></script>
-    <script>
-      var app = new Vue({
-        el: '#app',
-        data: function() {
-          return {
-            single_img_list: [],
-            multiple_img_list:[],
-            opts: {
-              uploadUrl: 'http://iview.image.poplanchong.top/image/upload',
-              uploadParams: {},// 用于验证信息
-              listUrl: 'http://iview.image.poplanchong.top/image/list',
-              listParams: {},// 用于验证信息
-              deleteUrl: 'http://iview.image.poplanchong.top/image/delete',
-              deleteParams: {}, // 用于验证信息
-              multiple: true,
-              enableUpload: true,
-              maxSize: 2048,
-              onSelect: img_list=> {
-                // 选中图片后回调处理
-                this.multiple_img_list = img_list;
-              }
+    <Card>
+      <p slot="title">单选</p>
+      <div>
+        <Row>
+          <i-col span="12">
+            <i-input placeholder="" />
+            <i-button slot="append" @click="single">选择图片</i-button>
+          </i-col>
+        </Row>
+        <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
+          <i-col>
+            <div class="img-list" v-for="(img, index) in single_img_list" :key="img.id">
+              <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;"
+                width="150" class="img-responsive img-thumbnail">
+              <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片"
+                @click="deleteImage(index,single_img_list)">×</em>
+            </div>
+          </i-col>
+        </Row>
+      </div>
+    </Card>
+    <br>
+    <Card>
+      <p slot="title">多选</p>
+      <div>
+        <Row>
+          <i-col span="12">
+            <i-input placeholder="" disabled />
+            <i-button slot="append" @click="multiple">选择图片</i-button>
+          </i-col>
+        </Row>
+        <Row type="flex" justify="start" gutter="16" style="margin-top:10px;">
+          <i-col>
+            <div class="img-list" v-for="(img, index) in multiple_img_list" :key="img.id">
+              <img :src="img.url" onerror="this.src='./src/assets/nopic.jpg'; this.title='图片未找到.'; this.onerror=null;"
+                width="150" class="img-responsive img-thumbnail">
+              <em class="close" style="position: absolute; top:0px; right:-14px;" title="删除这张图片"
+                @click="deleteImage(index,multiple_img_list)">×</em>
+            </div>
+          </i-col>
+        </Row>
+      </div>
+    </Card>
+  </div>
+  <script src="./dist/iview-imgbox.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          single_img_list: [],
+          multiple_img_list: [],
+          token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kZW1vLm15YXBpYWRtaW4uY29tLmNuXC9hZG1pblwvbG9naW4iLCJpYXQiOjE1NjAxMjc5OTcsImV4cCI6MTU2MDEzMTU5NywibmJmIjoxNTYwMTI3OTk3LCJqdGkiOiJhQmtpeTFJbUF0YlFFMEEwIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.Hv7qcx5lCqMTlHrT5Xx3MfNU1MOMBgGud14DWgggKIc',
+          opts: {
+            uploadParams: {
+              url: 'http://iview.image.poplanchong.top/image/upload',
+              data:{},
+            }, // 用于验证信息
+            listParams: {
+              url: 'http://iview.image.poplanchong.top/image/list',
+              data:{},
+            }, // 用于验证信息
+            deleteParams: {
+              url: 'http://iview.image.poplanchong.top/image/delete',
+              data:{},
+            }, // 用于验证信息
+            multiple: true,
+            enableUpload: true,
+            maxSize: 2048,
+            onSelect: img_list => {
+              // 选中图片后回调处理
+              this.multiple_img_list = img_list;
             }
           }
-        },
-        methods: {
-          multiple: function() {
-            this.$iviewImgbox(this.opts)
-          },
-          single: function() {
-            this.$iviewImgbox(
-              this.opt({
-                multiple: false,
-                onSelect :img_list=>{
-                  this.single_img_list = img_list;
-                }
-              })
-            )
-          },
-          opt: function(myOpts) {
-            var myOpts = myOpts || {}
-            var opts = JSON.parse(JSON.stringify(this.opts))
-
-            for (var i in myOpts) {
-              opts[i] = myOpts[i]
-            }
-
-            return opts
-          },
-          deleteImage(index,list){
-            list.splice(index,1);
-          },
         }
-      })
+      },
+      methods: {
+        multiple: function () {
+          this.$iviewImgbox(this.opts)
+        },
+        single: function () {
+          this.$iviewImgbox(
+            this.opt({
+              multiple: false,
+              onSelect: img_list => {
+                this.single_img_list = img_list;
+              }
+            })
+          )
+        },
+        opt: function (myOpts) {
+          var myOpts = myOpts || {}
+          var opts = JSON.parse(JSON.stringify(this.opts))
+          opts.onSelect = this.opts.onSelect;
 
-    </script>
-  </body>
+          for (var i in myOpts) {
+            opts[i] = myOpts[i]
+          }
+
+          return opts
+        },
+        deleteImage(index, list) {
+          list.splice(index, 1);
+        },
+      }
+    })
+
+  </script>
+</body>
+
 </html>
